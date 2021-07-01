@@ -1,50 +1,35 @@
-	"codeName" : "IndexOptionsConflict",
-	"$clusterTime" : {
-		"clusterTime" : Timestamp(1625096600, 783),
-		"signature" : {
-			"hash" : BinData(0,"zazqO9D4zZMVD0v3xAt66dos68o="),
-			"keyId" : NumberLong("6939989859763224591")
-		}
-	}
-}
-MongoDB Enterprise atlas-mtladn-shard-0:PRIMARY> db.bounties.find()
-{ "_id" : ObjectId("60dcfbd43660dc82d0d734ce"), "name" : "Han Solo", "wantedFor" : "Owing money", "client" : "Jabba the Hut", "reward" : 1000000, "ship" : "Millennium Falcon", "hunters" : [ "Bobba Fett", "Dengar", "IG-88", "Zuckuss", "Greedo", "Bossk", "4-LOM" ], "captured" : false }
-{ "_id" : ObjectId("60dcfbe13660dc82d0d734cf"), "name" : "Han Solo", "wantedFor" : "Owing money", "client" : "Jabba the Hut", "reward" : 1000000, "ship" : "Millennium Falcon", "hunters" : [ "Bobba Fett", "Dengar", "IG-88", "Zuckuss", "Greedo", "Bossk", "4-LOM" ], "captured" : false }
-{ "_id" : ObjectId("60dcfbe13660dc82d0d734d0"), "name" : "Rocket", "wantedFor" : "Stealing Batteries", "client" : "Ayesha High Priestess of the Sovereign", "reward" : 1000000000, "ship" : "The Milano", "hunters" : [ "Nebula", "Ravagers" ], "captured" : false }
-{ "_id" : ObjectId("60dcfbe13660dc82d0d734d1"), "name" : "Sara Lance", "wantedFor" : "Screwing up the timeline, causing anachronisms", "client" : "Time Bureau", "reward" : 50000, "ship" : "Waverider", "hunters" : [ "Chronos" ], "captured" : false }
-{ "_id" : ObjectId("60dcfbe13660dc82d0d734d2"), "name" : "Malcolm Reynolds", "wantedFor" : "Aiming to misbehave", "client" : "The Alliance", "reward" : 40000, "ship" : "Serenity", "hunters" : [ "Jubal Early" ], "captured" : false }
-MongoDB Enterprise atlas-mtladn-shard-0:PRIMARY> db.bounties.remove({name:{$in:duplicates}})
-uncaught exception: ReferenceError: duplicates is not defined :
-@(shell):1:27
-MongoDB Enterprise atlas-mtladn-shard-0:PRIMARY> db.bounties.remove({name:{$in:duplicate}})
-uncaught exception: ReferenceError: duplicate is not defined :
-@(shell):1:27
-MongoDB Enterprise atlas-mtladn-shard-0:PRIMARY> db.bounties.remove(_id: “60dcfbe13660dc82d0d734cf“)
-uncaught exception: SyntaxError: missing ) after argument list :
-@(shell):1:22
-MongoDB Enterprise atlas-mtladn-shard-0:PRIMARY> db.bounties.remove({_id: “60dcfbe13660dc82d0d734cf“})
-uncaught exception: SyntaxError: illegal character :
-@(shell):1:25
-MongoDB Enterprise atlas-mtladn-shard-0:PRIMARY> db.bounties.remove({_id: 60dcfbe13660dc82d0d734cf})
-uncaught exception: SyntaxError: identifier starts immediately after numeric literal :
-@(shell):1:25
-MongoDB Enterprise atlas-mtladn-shard-0:PRIMARY> db.bounties.remove({_id: ObjectId("60dcfbd43660dc82d0d734ce") )
-... )
-uncaught exception: SyntaxError: missing } after property list :
-@(shell):1:62
-MongoDB Enterprise atlas-mtladn-shard-0:PRIMARY> db.bounties.remove({_id: ObjectId("60dcfbd43660dc82d0d734ce")} )
-WriteResult({ "nRemoved" : 1 })
-MongoDB Enterprise atlas-mtladn-shard-0:PRIMARY> db.bounties.find()
-{ "_id" : ObjectId("60dcfbe13660dc82d0d734cf"), "name" : "Han Solo", "wantedFor" : "Owing money", "client" : "Jabba the Hut", "reward" : 1000000, "ship" : "Millennium Falcon", "hunters" : [ "Bobba Fett", "Dengar", "IG-88", "Zuckuss", "Greedo", "Bossk", "4-LOM" ], "captured" : false }
-{ "_id" : ObjectId("60dcfbe13660dc82d0d734d0"), "name" : "Rocket", "wantedFor" : "Stealing Batteries", "client" : "Ayesha High Priestess of the Sovereign", "reward" : 1000000000, "ship" : "The Milano", "hunters" : [ "Nebula", "Ravagers" ], "captured" : false }
-{ "_id" : ObjectId("60dcfbe13660dc82d0d734d1"), "name" : "Sara Lance", "wantedFor" : "Screwing up the timeline, causing anachronisms", "client" : "Time Bureau", "reward" : 50000, "ship" : "Waverider", "hunters" : [ "Chronos" ], "captured" : false }
-{ "_id" : ObjectId("60dcfbe13660dc82d0d734d2"), "name" : "Malcolm Reynolds", "wantedFor" : "Aiming to misbehave", "client" : "The Alliance", "reward" : 40000, "ship" : "Serenity", "hunters" : [ "Jubal Early" ], "captured" : false }
-MongoDB Enterprise atlas-mtladn-shard-0:PRIMARY> db.bounties.update({name: "Sara Lance"}, {$set: {name: "White Canary"}})
-WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
-MongoDB Enterprise atlas-mtladn-shard-0:PRIMARY> db.bounties.update({name: "Rocket"}, {$set: {ship: "The Milano 2"}})
-WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
-MongoDB Enterprise atlas-mtladn-shard-0:PRIMARY> db.bounties.find()
-{ "_id" : ObjectId("60dcfbe13660dc82d0d734cf"), "name" : "Han Solo", "wantedFor" : "Owing money", "client" : "Jabba the Hut", "reward" : 1000000, "ship" : "Millennium Falcon", "hunters" : [ "Bobba Fett", "Dengar", "IG-88", "Zuckuss", "Greedo", "Bossk", "4-LOM" ], "captured" : false }
-{ "_id" : ObjectId("60dcfbe13660dc82d0d734d0"), "name" : "Rocket", "wantedFor" : "Stealing Batteries", "client" : "Ayesha High Priestess of the Sovereign", "reward" : 1000000000, "ship" : "The Milano 2", "hunters" : [ "Nebula", "Ravagers" ], "captured" : false }
-{ "_id" : ObjectId("60dcfbe13660dc82d0d734d1"), "name" : "White Canary", "wantedFor" : "Screwing up the timeline, causing anachronisms", "client" : "Time Bureau", "reward" : 50000, "ship" : "Waverider", "hunters" : [ "Chronos" ], "captured" : false }
-{ "_id" : ObjectId("60dcfbe13660dc82d0d734d2"), "name" : "Malcolm Reynolds", "wantedFor" : "Aiming to misbehave", "client" : "The Alliance", "reward" : 40000, "ship" : "Serenity", "hunters" : [ "Jubal Early" ], "captured" : false }
+show dbs
+use hunters
+db.bounties.find({name:} )
+use hunters
+db.bounties.find()
+db.bounties.insert (db.bounties.insert(   {     name: 'Han Solo',     wantedFor : 'Owing money',     client : 'Jabba the Hut',     reward : 1000000,     ship: 'Millennium Falcon',     hunters :['Bobba Fett', 'Dengar', 'IG-88', 'Zuckuss', 'Greedo', 'Bossk', '4-LOM'],     captured: false   }   ) )
+db.bounties.insert(   {     name: 'Han Solo',     wantedFor : 'Owing money',     client : 'Jabba the Hut',     reward : 1000000,     ship: 'Millennium Falcon',     hunters :['Bobba Fett', 'Dengar', 'IG-88', 'Zuckuss', 'Greedo', 'Bossk', '4-LOM'],     captured: false   }   )
+db.bounties.find()
+show collections
+db.bounties.insert([   {     name: 'Han Solo',     wantedFor : 'Owing money',     client : 'Jabba the Hut',     reward : 1000000,     ship: 'Millennium Falcon',     hunters :['Bobba Fett', 'Dengar', 'IG-88', 'Zuckuss', 'Greedo', 'Bossk', '4-LOM'],     captured: false   },   {     name: 'Rocket',     wantedFor : 'Stealing Batteries',     client : 'Ayesha High Priestess of the Sovereign',     reward : 1000000000,     ship: 'The Milano',     hunters :['Nebula', 'Ravagers'],     captured: false   },   {     name: 'Sara Lance',     wantedFor : 'Screwing up the timeline, causing anachronisms',     client : 'Time Bureau',     reward : 50000,     ship: 'Waverider',     hunters :['Chronos'],     captured: false   },   {     name: 'Malcolm Reynolds',     wantedFor : 'Aiming to misbehave',     client : 'The Alliance',     reward : 40000,     ship: 'Serenity',     hunters :['Jubal Early'],     captured: false   },   {     name: 'Starbuck',     wantedFor : "Disobeying Captain's orders",     client : 'Captain Adama',     ship: 'Demetrius',     reward : 1000,     hunters :['Apollo'],     captured: true   } ])
+db.bounties.find()
+db.bounties.find().pretty()
+db.bounties.find({client: 'Time Bureau' })
+show dbs
+show hunters
+use hunters
+db.bounties.find({ captured: true })
+db.bounties.find()
+db.bounties.find({ capture: true });
+db.bounties.find ({ name: 'Han Solo' });
+db.bounties.distinct('name' )
+db.bounties.find({}, {name:1});
+use hunters
+db.bounties.find({}, {name:1});
+db.bounties.remove({name: "Starbuck"});
+db.bounties.ensureIndex({name: 1, nodes: 1}, {unique: true, dropDups: true})
+db.bounties.ensureIndex({name: 1}, {unique: true, dropDups: true})
+db.bounties.remove({name: "Han Solo"}, {justOne: true})
+db.bounties.find()
+db.bounties.insert(   {     name: 'Han Solo',     wantedFor : 'Owing money',     client : 'Jabba the Hut',     reward : 1000000,     ship: 'Millennium Falcon',     hunters :['Bobba Fett', 'Dengar', 'IG-88', 'Zuckuss', 'Greedo', 'Bossk', '4-LOM'],     captured: false   }   )
+db.bounties.find()
+db.bounties.update({name:"Sara Lance"}, {$set: {name: "White Canary"}})
+db.bounties.find()
+db.bounties.update({name: 'Rocket'}, {$set: {ship: 'The Milano 2'}})
+db.bounties.find()
