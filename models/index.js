@@ -1,4 +1,5 @@
 const mongoose = require ('mongoose')
+
 require('dotenv').config()
 
 const connect = () => {
@@ -19,8 +20,8 @@ const connect = () => {
   })
 }
 
-
 module.exports = {
   connect,
-  Hunters: mongoose.model('Hunters', require('./Hunters.js'))
+  Hunter: mongoose.model('Hunters', require('./Hunters.js'))
+
 }

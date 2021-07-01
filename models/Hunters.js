@@ -17,9 +17,9 @@ const HunterSchema = new mongoose.Schema({
   ship: {
     type: String
   },
-  hunters: {
-    type: Array
-  },
+  hunters: [{
+    type: String
+  }],
   captured: {
     type: Boolean
   }
